@@ -1,22 +1,28 @@
 from __future__ import annotations
 
+import tempfile
 from pathlib import Path
 
 from flask import Flask, render_template, request, send_from_directory
+from werkzeug.utils import secure_filename
 
 from file_hasher import hash_file
 from ip_lookup import get_ip_info
 from password_generator import generate_password
 from ping_sweeper import ping_host
 
-app = Flask(__name__)
-app.config["UPLOAD_FOLDER"] = Path("uploads")
-app.config["UPLOAD_FOLDER"].mkdir(exist_ok=True)
+ROOT_DIR = Path(__file__).resolve().parent
+app = Flask(
+    __name__,
+    template_folder=str(ROOT_DIR / "templates"),
+    static_folder=str(ROOT_DIR / "static"),
+)
+app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
 
 @app.route("/image/<path:filename>")
 def serve_image(filename):
-    return send_from_directory("image", filename)
+    return send_from_directory(ROOT_DIR / "image", filename)
 
 
 @app.route("/", methods=["GET"])
@@ -56,15 +62,13 @@ def hash_file_route():
     if uploaded_file is None or uploaded_file.filename == "":
         return render_template("index.html", error="Please choose a file to hash.", section="hash")
 
-    upload_path = app.config["UPLOAD_FOLDER"] / uploaded_file.filename
-    uploaded_file.save(upload_path)
-    try:
+    filename = secure_filename(uploaded_file.filename)
+    with tempfile.TemporaryDirectory() as temp_dir:
+        upload_path = Path(temp_dir) / "upload"
+        uploaded_file.save(upload_path)
         digest = hash_file(str(upload_path))
-    finally:
-        if upload_path.exists():
-            upload_path.unlink()
 
-    return render_template("index.html", file_digest=digest, filename=uploaded_file.filename, section="hash")
+    return render_template("index.html", file_digest=digest, filename=filename, section="hash")
 
 
 @app.route("/ping-sweep", methods=["POST"])
@@ -88,4 +92,4 @@ def ping_sweep_route():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=False, host="0.0.0.0", port=5000)
