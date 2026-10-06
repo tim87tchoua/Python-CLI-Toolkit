@@ -12,29 +12,12 @@ A small collection of command-line tools built with Python. Each script is self-
 
 ## 📦 Usage
 
-### Command-line tools
-
 ```bash
 python3 password_generator.py
 python3 ip_lookup.py
 python3 ping_sweeper.py
 python3 file_hasher.py
 python3 webpage_creator.py --title "My Brand" --subtitle "Modern digital solutions" --output-dir website
-```
-
-### Web app
-
-Start the browser-based interface:
-
-```bash
-pip install -r requirements.txt
-python app.py
-```
-
-Then open:
-
-```text
-http://localhost:5000
 ```
 
 ### Webpage Creator examples
@@ -53,16 +36,13 @@ Open the generated `website/index.html` file in a browser to preview the page.
 
 ## ✅ Dependencies
 
-Install the project requirements with:
+Only `requests` is required (for ip_lookup). Install with:
 
 ```bash
-pip install -r requirements.txt
+pip install requests
 ```
 
 Happy hacking 💻
-# Python-CLI-Toolkit
-# Python-CLI-Toolkit
-# Python-CLI-Toolkit
-# Python-CLI-Toolkit
-# Python-CLI-Toolkit
-# Python-CLI-Toolkit
+
+Professional
+Python-CLI-Toolkit is a lightweight collection of Python command-line utilities built for practical use, experimentation, and learning. It includes tools for password generation, IP lookup, network scanning, file hashing, and static website generation, making it a flexible toolkit for small automation and cybersecurity-oriented tasks.# Python-CLI-Toolkit
