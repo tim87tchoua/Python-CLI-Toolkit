@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python CLI Toolkit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container brand-row">
+        <div class="brand-group">
+          <img class="brand-logo" src="{{ url_for('serve_image', filename='tinsandtech.png') }}" alt="Tinsandtech logo" />
+          <img class="profile-photo" src="{{ url_for('serve_image', filename='tim.jpeg') }}" alt="Tim profile" />
+        </div>
+        <div class="brand-text">
+          <h1>Python CLI Toolkit</h1>
+          <p>Use the tools from a browser.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container grid">
+      <section class="card {% if section == 'password' %}highlight{% endif %}">
+        <h2>Password Generator</h2>
+        <form action="/generate-password" method="post">
+          <label for="length">Password length</label>
+          <input id="length" type="number" name="length" value="12" min="4" max="128" />
+          <button type="submit">Generate</button>
+        </form>
+        {% if password %}
+          <div class="result-box">
+            <strong>Generated password:</strong>
+            <p>{{ password }}</p>
+          </div>
+        {% endif %}
+      </section>
+
+      <section class="card {% if section == 'ip' %}highlight{% endif %}">
+        <h2>IP Lookup</h2>
+        <form action="/lookup-ip" method="post">
+          <label for="ip_address">IP address</label>
+          <input id="ip_address" type="text" name="ip_address" placeholder="8.8.8.8" />
+          <button type="submit">Lookup</button>
+        </form>
+        {% if ip_data %}
+          <div class="result-box">
+            <strong>IP details</strong>
+            <ul>
+              {% for key, value in ip_data.items() %}
+                <li><span>{{ key }}:</span> {{ value }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </section>
+
+      <section class="card {% if section == 'hash' %}highlight{% endif %}">
+        <h2>File Hasher</h2>
+        <form action="/hash-file" method="post" enctype="multipart/form-data">
+          <label for="file">Choose file</label>
+          <input id="file" type="file" name="file" />
+          <button type="submit">Hash file</button>
+        </form>
+        {% if file_digest %}
+          <div class="result-box">
+            <strong>SHA256 for {{ filename }}:</strong>
+            <p>{{ file_digest }}</p>
+          </div>
+        {% endif %}
+      </section>
+
+      <section class="card {% if section == 'ping' %}highlight{% endif %}">
+        <h2>Ping Sweeper</h2>
+        <form action="/ping-sweep" method="post">
+          <label for="base_ip">Base IP</label>
+          <input id="base_ip" type="text" name="base_ip" placeholder="192.168.1" />
+          <button type="submit">Scan network</button>
+        </form>
+        {% if online_hosts is not none %}
+          <div class="result-box">
+            <strong>Online hosts</strong>
+            {% if online_hosts %}
+              <ul>
+                {% for host in online_hosts %}
+                  <li>{{ host }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p>No hosts responded.</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      </section>
+    </main>
+
+    {% if error %}
+      <div class="alert">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© Tims TCHOUAMOU</p>
+      </div>
+    </footer>
+  </body>
+</html>

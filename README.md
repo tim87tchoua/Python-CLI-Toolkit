@@ -12,12 +12,29 @@ A small collection of command-line tools built with Python. Each script is self-
 
 ## 📦 Usage
 
+### Command-line tools
+
 ```bash
 python3 password_generator.py
 python3 ip_lookup.py
 python3 ping_sweeper.py
 python3 file_hasher.py
 python3 webpage_creator.py --title "My Brand" --subtitle "Modern digital solutions" --output-dir website
+```
+
+### Web app
+
+Start the browser-based interface:
+
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+Then open:
+
+```text
+http://localhost:5000
 ```
 
 ### Webpage Creator examples
@@ -36,11 +53,12 @@ Open the generated `website/index.html` file in a browser to preview the page.
 
 ## ✅ Dependencies
 
-Only `requests` is required (for ip_lookup). Install with:
+Install the project requirements with:
 
 ```bash
-pip install requests
+pip install -r requirements.txt
 ```
 
 Happy hacking 💻
+# Python-CLI-Toolkit
 # Python-CLI-Toolkit
